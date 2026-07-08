@@ -1,86 +1,83 @@
-// Función para renderizar las tarjetas en la cuadrícula superior
-function renderizarPlataformas(listaJuegos) {
+// Función para renderizar las tarjetas de juegos
+function renderizarTarjetas(juegos) {
     const container = document.getElementById('games-container');
     if (!container) return;
-    container.innerHTML = '';
+    container.innerHTML = ''; // Limpiar residuos
 
-    listaJuegos.forEach(juego => {
-        // Clase limpia para CSS basada en la plataforma (ps5, pc, nintendoswitch, xbox)
-        const clasePlataforma = juego.plataforma.toLowerCase().replace(/\s+/g, '');
+    juegos.forEach(juego => {
+        const clasePlataforma = juego.plataforma.toLowerCase().replace(/\s+/g, '-');
         const tieneStock = juego.stock > 0;
-        const claseStock = tieneStock ? 'status-disponible' : 'status-agotado';
+        const badgeStock = tieneStock ? 'badge-disponible' : 'badge-agotado';
         const textoStock = tieneStock ? `Disponible (${juego.stock})` : `Agotado (${juego.stock})`;
 
-        const card = document.createElement('div');
-        card.classList.add('game-card');
-        
-        card.innerHTML = `
-            <div class="card-header-platform platform-${clasePlataforma}">
-                ${juego.plataforma}
-            </div>
-            <div class="card-content">
-                <h3>${juego.nombre}</h3>
-                <p class="game-info">Clasificación: ${juego.clasificacion}</p>
-                <p class="game-price">$${juego.precio.toLocaleString('es-CL')}</p>
-                <p class="game-stock ${claseStock}">${textoStock}</p>
+        container.innerHTML += `
+            <div class="card-juego border-${clasePlataforma}">
+                <div class="card-header-plataforma bg-${clasePlataforma}">
+                    ${juego.plataforma}
+                </div>
+                <div class="card-body">
+                    <h3>${juego.nombre}</h3>
+                    <p class="clasificacion">Clasificación: <span>${juego.clasificacion}</span></p>
+                    <p class="precio">$${juego.precio.toLocaleString('es-CL')}</p>
+                    <span class="badge-status ${badgeStock}">${textoStock}</span>
+                </div>
             </div>
         `;
-        container.appendChild(card);
     });
 }
 
-// Función para calcular métricas de la rúbrica y renderizar el panel de resumen
-function calcularYRenderizarResumen(listaJuegos) {
-    const summaryContainer = document.getElementById('summary-container');
-    if (!summaryContainer) return;
+// Función para procesar cálculos de la rúbrica y renderizar resumen ejecutivo
+function renderizarResumen(juegos) {
+    const container = document.getElementById('summary-container');
+    if (!container) return;
 
-    // 1. Cálculos de stock y totales
-    const totalJuegos = listaJuegos.length;
-    const disponibles = listaJuegos.filter(j => j.stock > 0).length;
-    const agotados = listaJuegos.filter(j => j.stock === 0).length;
-    
-    // 2. Valor total multiplicando precio por stock de cada uno
-    const valorInventario = listaJuegos.reduce((acc, juego) => acc + (juego.precio * juego.stock), 0);
+    // Métricas dinámicas requeridas
+    const totalJuegos = juegos.length;
+    const disponibles = juegos.filter(j => j.stock > 0).length;
+    const agotados = juegos.filter(j => j.stock === 0).length;
+    const valorTotal = juegos.reduce((sum, j) => sum + (j.precio * j.stock), 0);
+    const juegoMasCaro = juegos.reduce((max, j) => j.precio > max.precio ? j : max, juegos[0]);
 
-    // 3. Buscar el videojuego más caro
-    const juegoMasCaro = listaJuegos.reduce((max, juego) => juego.precio > max.precio ? juego : max, listaJuegos[0]);
-
-    // Inyección limpia respetando tus textos originales pero con diseño estilizado
-    summaryContainer.innerHTML = `
-        <h2>Resumen del Inventario</h2>
+    container.innerHTML = `
+        <h2 class="section-title">Resumen del Inventario</h2>
         <div class="summary-grid">
-            <div class="summary-box">
-                <span class="summary-label">Cantidad de videojuegos</span>
-                <span class="summary-value">${totalJuegos}</span>
+            <div class="metric-card">
+                <span class="metric-title">Cantidad de videojuegos</span>
+                <span class="metric-number">${totalJuegos}</span>
             </div>
-            <div class="summary-box">
-                <span class="summary-label">Disponibles</span>
-                <span class="summary-value">${disponibles}</span>
+            <div class="metric-card">
+                <span class="metric-title">Disponibles</span>
+                <span class="metric-number text-success">${disponibles}</span>
             </div>
-            <div class="summary-box">
-                <span class="summary-label">Agotados</span>
-                <span class="summary-value">${agotados}</span>
+            <div class="metric-card">
+                <span class="metric-title">Agotados</span>
+                <span class="metric-number text-danger">${agotados}</span>
             </div>
-            <div class="summary-box">
-                <span class="summary-label">Valor del inventario</span>
-                <span class="summary-value">$${valorInventario.toLocaleString('es-CL')}</span>
+            <div class="metric-card shadow-value">
+                <span class="metric-title">Valor del inventario</span>
+                <span class="metric-number text-highlight">$${valorTotal.toLocaleString('es-CL')}</span>
             </div>
         </div>
         
-        <div class="featured-box">
-            <div class="featured-left">
-                <span class="featured-title">🎮 Videojuego más caro:</span>
-                <span class="featured-name">${juegoMasCaro.nombre}</span>
+        <div class="featured-banner">
+            <div class="featured-info">
+                <span class="featured-tag">🎮 Videojuego más caro</span>
+                <h4 class="featured-title-name">${juegoMasCaro.nombre}</h4>
             </div>
-            <div class="featured-right">
-                <span class="featured-meta">Precio: $${juegoMasCaro.precio.toLocaleString('es-CL')} | Plataforma: ${juegoMasCaro.plataforma}</span>
+            <div class="featured-meta">
+                <span class="featured-platform">${juegoMasCaro.plataforma}</span>
+                <span class="featured-price">$${juegoMasCaro.precio.toLocaleString('es-CL')}</span>
             </div>
         </div>
     `;
 }
 
-// Inicializar la aplicación una vez cargado el DOM
+// Evento seguro: Se ejecuta cuando el DOM está completamente cargado
 document.addEventListener('DOMContentLoaded', () => {
-    renderizarPlataformas(videojuegos);
-    calcularYRenderizarResumen(videojuegos);
+    if (typeof videojuegos !== 'undefined') {
+        renderizarTarjetas(videojuegos);
+        renderizarResumen(videojuegos);
+    } else {
+        console.error("Error: El archivo datos.js no se cargó correctamente.");
+    }
 });
