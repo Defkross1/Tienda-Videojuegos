@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Inventario - Tienda Gamer</title>
+    <title>Sistema de Control de Inventario</title>
     <link rel="stylesheet" href="assets/css/estilos.css">
 </head>
-<body class="bg-light text-dark">
+<body>
 
     <header class="main-header">
-        <h1>Sistema de Control de Inventario</h1>
-        <p>Dashboard de consulta para videojuegos disponibles</p>
+        <div class="header-container">
+            <h1>Sistema de Control de Inventario</h1>
+            <p>Dashboard de consulta para videojuegos disponibles</p>
+        </div>
     </header>
 
-    <main class="container">
-        <section id="contenedor-videojuegos" class="grid-productos">
+    <main class="dashboard-layout">
+        <section id="games-container" class="games-grid">
             </section>
 
-        <section id="resumen-inventario" class="panel-resumen">
-            <h2>Resumen del Inventario</h2>
-            <div id="detalle-resumen">
-                </div>
-        </section>
+        <section id="summary-container" class="summary-wrapper">
+            </section>
     </main>
+
+    <script src="assets/js/datos.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
 
     <script src="assets/js/datos.js"></script>
     <script src="assets/js/app.js"></script>
