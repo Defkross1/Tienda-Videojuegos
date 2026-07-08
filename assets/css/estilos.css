@@ -1,0 +1,84 @@
+
+ /* Hoja de Estilos Personalizada para Soporte de Interfaz */
+
+
+/* Variables de color para asegurar consistencia cromática */
+:root {
+    --bg-light: #f8fafc;
+    --text-dark: #0f172a;
+    --border-soft: #e2e8f0;
+}
+
+/* Configuraciones base del cuerpo de la aplicación */
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+}
+
+/* Encabezado principal del panel */
+.main-header {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.main-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.main-header p {
+    margin-top: 0.5rem;
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+/* Contenedor adaptativo de la app */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+/* Cuadrícula responsiva para las tarjetas de videojuegos */
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+/* Panel inferior para agrupar las métricas analíticas del resumen */
+.panel-resumen {
+    background-color: #ffffff;
+    border: 1px solid var(--border-soft);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.panel-resumen h2 {
+    margin-top: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 0.75rem;
+}
+
+/* Efecto de elevación orgánica para las tarjetas (Muestra de patrón humano) */
+.lift {
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -8px rgba(15, 23, 42, 0.15);
+}
