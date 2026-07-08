@@ -1,110 +1,86 @@
-// Variables acumuladoras globales para el estado y finanzas
-let cantidadDisponibles = 0;
-let cantidadAgotados = 0;
-let valorInventarioTotal = 0;
+// Función para renderizar las tarjetas en la cuadrícula superior
+function renderizarPlataformas(listaJuegos) {
+    const container = document.getElementById('games-container');
+    if (!container) return;
+    container.innerHTML = '';
 
-// Variable de control para buscar el elemento con mayor precio
-let videojuegoMasCaro = inventarioVideojuegos[0];
+    listaJuegos.forEach(juego => {
+        // Clase limpia para CSS basada en la plataforma (ps5, pc, nintendoswitch, xbox)
+        const clasePlataforma = juego.plataforma.toLowerCase().replace(/\s+/g, '');
+        const tieneStock = juego.stock > 0;
+        const claseStock = tieneStock ? 'status-disponible' : 'status-agotado';
+        const textoStock = tieneStock ? `Disponible (${juego.stock})` : `Agotado (${juego.stock})`;
 
-console.log("=== PROCESANDO DATOS DEL INVENTARIO ===");
-
-// PARTE 1: Ciclo de cálculos lógicos principales
-for (let i = 0; i < inventarioVideojuegos.length; i++) {
-    let juego = inventarioVideojuegos[i];
-    
-    // Calcular el valor del inventario por cada producto (precio * stock)
-    let valorPorJuego = juego.precio * juego.stock;
-    valorInventarioTotal += valorPorJuego;
-
-    // Verificar el estado del stock
-    if (juego.stock > 0) {
-        cantidadDisponibles++; 
-    } else {
-        cantidadAgotados++;
-    }
-
-    // Buscar el videojuego más caro mediante comparación
-    if (juego.precio > videojuegoMasCaro.precio) {
-        videojuegoMasCaro = juego;
-    }
+        const card = document.createElement('div');
+        card.classList.add('game-card');
+        
+        card.innerHTML = `
+            <div class="card-header-platform platform-${clasePlataforma}">
+                ${juego.plataforma}
+            </div>
+            <div class="card-content">
+                <h3>${juego.nombre}</h3>
+                <p class="game-info">Clasificación: ${juego.clasificacion}</p>
+                <p class="game-price">$${juego.precio.toLocaleString('es-CL')}</p>
+                <p class="game-stock ${claseStock}">${textoStock}</p>
+            </div>
+        `;
+        container.appendChild(card);
+    });
 }
 
-//Vinculación con el DOM e Inyección Dinámica en la Interfaz (HTML)
+// Función para calcular métricas de la rúbrica y renderizar el panel de resumen
+function calcularYRenderizarResumen(listaJuegos) {
+    const summaryContainer = document.getElementById('summary-container');
+    if (!summaryContainer) return;
 
-const contenedorProductos = document.getElementById("contenedor-videojuegos");
-const contenedorResumen = document.getElementById("detalle-resumen");
-
-let estructuraTarjetasHTML = "";
-
-// Iteramos para mapear de forma segura cada objeto al contenedor web
-for (let j = 0; j < inventarioVideojuegos.length; j++) {
-    let itemJuego = inventarioVideojuegos[j]; // Corregido: usamos la j del ciclo
+    // 1. Cálculos de stock y totales
+    const totalJuegos = listaJuegos.length;
+    const disponibles = listaJuegos.filter(j => j.stock > 0).length;
+    const agotados = listaJuegos.filter(j => j.stock === 0).length;
     
-    let textoStock = itemJuego.stock > 0 ? "Disponible" : "Agotado";
-    let colorBadge = itemJuego.stock > 0 ? "bg-emerald-100 text-emerald-800" : "bg-red-100 text-red-800";
+    // 2. Valor total multiplicando precio por stock de cada uno
+    const valorInventario = listaJuegos.reduce((acc, juego) => acc + (juego.precio * juego.stock), 0);
 
-    // Clasificación de precios para el Desafío solicitado
-    let etiquetaPrecio = "";
-    if (itemJuego.precio < 40000) {
-        etiquetaPrecio = "Económico";
-    } else if (itemJuego.precio >= 40000 && itemJuego.precio <= 60000) {
-        etiquetaPrecio = "Precio Medio";
-    } else {
-        etiquetaPrecio = "Premium";
-    }
+    // 3. Buscar el videojuego más caro
+    const juegoMasCaro = listaJuegos.reduce((max, juego) => juego.precio > max.precio ? juego : max, listaJuegos[0]);
 
-    // Inyección de componentes usando maquetación limpia y Tailwind CSS
-    estructuraTarjetasHTML += `
-        <article class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm lift">
-            <div class="mb-4">
-                <span class="inline-block px-2.5 py-0.5 text-xs font-bold rounded-full bg-slate-100 text-slate-600 mb-2">
-                    ${itemJuego.plataforma}
-                </span>
-                <h3 class="text-slate-900 font-bold text-xl leading-tight mb-1">${itemJuego.nombre}</h3>
-                <p class="text-slate-500 text-xs font-medium">Clasificación: <span class="font-semibold text-slate-700">${etiquetaPrecio}</span></p>
+    // Inyección limpia respetando tus textos originales pero con diseño estilizado
+    summaryContainer.innerHTML = `
+        <h2>Resumen del Inventario</h2>
+        <div class="summary-grid">
+            <div class="summary-box">
+                <span class="summary-label">Cantidad de videojuegos</span>
+                <span class="summary-value">${totalJuegos}</span>
             </div>
-            <div class="flex items-center justify-between border-t border-slate-100 pt-4 mt-2">
-                <span class="text-slate-900 font-bold text-lg">$${itemJuego.precio.toLocaleString('es-CL')}</span>
-                <span class="px-2.5 py-1 text-xs font-bold rounded-full ${colorBadge}">
-                    ${textoStock} (${itemJuego.stock})
-                </span>
+            <div class="summary-box">
+                <span class="summary-label">Disponibles</span>
+                <span class="summary-value">${disponibles}</span>
             </div>
-        </article>
+            <div class="summary-box">
+                <span class="summary-label">Agotados</span>
+                <span class="summary-value">${agotados}</span>
+            </div>
+            <div class="summary-box">
+                <span class="summary-label">Valor del inventario</span>
+                <span class="summary-value">$${valorInventario.toLocaleString('es-CL')}</span>
+            </div>
+        </div>
+        
+        <div class="featured-box">
+            <div class="featured-left">
+                <span class="featured-title">🎮 Videojuego más caro:</span>
+                <span class="featured-name">${juegoMasCaro.nombre}</span>
+            </div>
+            <div class="featured-right">
+                <span class="featured-meta">Precio: $${juegoMasCaro.precio.toLocaleString('es-CL')} | Plataforma: ${juegoMasCaro.plataforma}</span>
+            </div>
+        </div>
     `;
 }
 
-// Pintar las tarjetas procesadas dentro del contenedor de la cuadrícula
-if (contenedorProductos) {
-    contenedorProductos.innerHTML = estructuraTarjetasHTML;
-}
-
-// Construir e inyectar el bloque del panel resumen final solicitado
-let estructuraResumenHTML = `
-    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-4 text-sm mt-4">
-        <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
-            <p class="text-slate-500 font-medium mb-1">Cantidad de videojuegos</p>
-            <p class="text-2xl font-bold text-slate-900">${inventarioVideojuegos.length}</p>
-        </div>
-        <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl">
-            <p class="text-emerald-700 font-medium mb-1">Disponibles</p>
-            <p class="text-2xl font-bold text-emerald-900">${cantidadDisponibles}</p>
-        </div>
-        <div class="bg-red-50 border border-red-100 p-4 rounded-xl">
-            <p class="text-red-700 font-medium mb-1">Agotados</p>
-            <p class="text-2xl font-bold text-red-900">${cantidadAgotados}</p>
-        </div>
-        <div class="bg-orange-50 border border-orange-100 p-4 rounded-xl">
-            <p class="text-orange-700 font-medium mb-1">Valor del inventario</p>
-            <p class="text-2xl font-bold text-orange-900">$${valorInventarioTotal.toLocaleString('es-CL')}</p>
-        </div>
-    </div>
-    <div class="bg-orange-50 border border-orange-200 p-4 rounded-xl mt-4 text-sm">
-        <p class="text-orange-800 font-bold flex items-center gap-1.5">🎮 Videojuego más caro:</p>
-        <p class="text-slate-900 font-bold text-base mt-1">${videojuegoMasCaro.nombre}</p>
-        <p class="text-slate-600 font-medium mt-0.5">Precio: $${videojuegoMasCaro.precio.toLocaleString('es-CL')} | Plataforma: ${videojuegoMasCaro.plataforma}</p>
-    </div>
-`;
-
-if (contenedorResumen) {
-    contenedorResumen.innerHTML = estructuraResumenHTML;
-}
+// Inicializar la aplicación una vez cargado el DOM
+document.addEventListener('DOMContentLoaded', () => {
+    renderizarPlataformas(videojuegos);
+    calcularYRenderizarResumen(videojuegos);
+});
