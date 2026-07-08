@@ -1,18 +1,20 @@
 /* --- Variables de Diseño --- */
-:root {
-    --bg-main: #0b0f17;          /* Fondo oscuro profundo de alta gama */
-    --bg-card: #121824;          /* Tarjetas con un tono sutilmente más claro */
-    --bg-header: #070a10;        /* Header integrado al fondo */
-    --border-smooth: #1e293b;    /* Líneas divisorias muy finas y profesionales */
-    
-    --text-primary: #f8fafc;     /* Blanco limpio */
-    --text-muted: #64748b;       /* Gris azulado elegante para etiquetas */
-    --text-accent: #38bdf8;      /* Celeste gaming profesional para precios y destaques */
 
-    /* Colores corporativos sobrios para las plataformas */
+:root {
+    --bg-main: #f1f5f9;     
+    --bg-card: #ffffff;  
+    --bg-header: #ffffff;    
+    --border-smooth: #e2e8f0;  
+    
+    /* Jerarquía de Textos Oscuros */
+    --text-primary: #0f172a;   
+    --text-muted: #64748b;      
+    --text-accent: #0284c7;     
+
+    /* Colores limpios y profesionales para las plataformas */
     --platform-ps5: #00439c;
-    --platform-pc: #6d28d9;
-    --platform-switch: #dc2626;
+    --platform-pc: #7c3aed;
+    --platform-switch: #e11d48;
     --platform-xbox: #16a34a;
 }
 
@@ -26,11 +28,11 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- Header de Producción Real --- */
+/* --- Header Estilo Premium Claro --- */
 .main-header {
     background-color: var(--bg-header);
     border-bottom: 1px solid var(--border-smooth);
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.5rem;
     text-align: center;
 }
 
@@ -53,7 +55,7 @@ body {
 .dashboard-layout {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.5rem;
 }
 
 /* Grilla de Videojuegos */
@@ -64,21 +66,90 @@ body {
     margin-bottom: 3.5rem;
 }
 
+/* Sección de Administración Formulario */
+.admin-section {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-smooth);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.admin-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 160px;
+}
+
+.form-group label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.form-group input, .form-group select {
+    background-color: #f8fafc;
+    border: 1px solid var(--border-smooth);
+    border-radius: 8px;
+    padding: 0.65rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #0284c7;
+    background-color: #ffffff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+}
+
+/* Botón Añadir */
+.btn-submit {
+    background-color: #0284c7;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    height: 38px;
+}
+
+.btn-submit:hover {
+    background-color: #0369a1;
+}
+
 /* Tarjeta de Videojuego Estilo Comercial */
 .card-juego {
     background-color: var(--bg-card);
     border: 1px solid var(--border-smooth);
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
 }
 
 .card-juego:hover {
-    border-color: #334155;
     transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
 }
 
-/* Indicadores de plataforma sutiles arriba */
+/* Cabeceras de plataforma */
 .card-header-plataforma {
     padding: 0.5rem 1.2rem;
     font-size: 0.75rem;
@@ -99,9 +170,9 @@ body {
 }
 
 .card-body h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.2rem;
-    font-weight: 600;
+    margin: 0 0 0.4rem 0;
+    font-size: 1.25rem;
+    font-weight: 700;
     letter-spacing: -0.01em;
 }
 
@@ -112,13 +183,13 @@ body {
 }
 
 .clasificacion span {
-    color: #e2e8f0;
-    font-weight: 500;
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
 .precio {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.6rem;
+    font-weight: 800;
     color: var(--text-accent);
     margin: 0 0 1.25rem 0;
 }
@@ -127,27 +198,53 @@ body {
 .badge-status {
     display: inline-block;
     padding: 0.3rem 0.6rem;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 0.75rem;
     font-weight: 600;
 }
 
 .badge-disponible { 
-    background-color: rgba(16, 185, 129, 0.1); 
-    color: #10b981; 
+    background-color: #d1fae5; 
+    color: #065f46; 
 }
 
 .badge-agotado { 
-    background-color: rgba(239, 68, 68, 0.1); 
-    color: #ef4444; 
+    background-color: #fee2e2; 
+    color: #991b1b; 
+}
+
+/* Acciones de la Tarjeta */
+.card-actions {
+    margin-top: 1.25rem;
+    border-top: 1px solid var(--border-smooth);
+    padding-top: 1rem;
+    text-align: right;
+}
+
+.btn-delete {
+    background-color: transparent;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-delete:hover {
+    background-color: #fef2f2;
+    border-color: #dc2626;
 }
 
 /* --- Panel de Resumen del Inventario --- */
 .summary-wrapper {
     background-color: var(--bg-card);
     border: 1px solid var(--border-smooth);
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .section-title {
@@ -167,34 +264,36 @@ body {
 }
 
 .metric-card {
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: #f8fafc;
     border: 1px solid var(--border-smooth);
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 1.25rem;
 }
 
 .metric-title {
     color: var(--text-muted);
     font-size: 0.8rem;
-    font-weight: 500;
+    font-weight: 600;
     display: block;
     margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 }
 
 .metric-number {
-    font-size: 1.6rem;
-    font-weight: 700;
+    font-size: 1.75rem;
+    font-weight: 800;
 }
 
-.text-success { color: #10b981; }
-.text-danger { color: #ef4444; }
-.text-highlight { color: #f59e0b; }
+.text-success { color: #059669; }
+.text-danger { color: #dc2626; }
+.text-highlight { color: #d97706; }
 
 /* Fila del Destacado del Inventario */
 .featured-banner {
-    background-color: rgba(255, 255, 255, 0.01);
+    background-color: #f8fafc;
     border: 1px solid var(--border-smooth);
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 1.25rem;
     display: flex;
     justify-content: space-between;
@@ -208,12 +307,13 @@ body {
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    font-weight: 600;
 }
 
 .featured-title-name {
     margin: 0.2rem 0 0 0;
     font-size: 1.15rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .featured-meta {
@@ -223,105 +323,16 @@ body {
 }
 
 .featured-platform {
-    background-color: #1e293b;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
+    background-color: #e2e8f0;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
     font-size: 0.75rem;
-    color: #94a3b8;
-    font-weight: 600;
+    color: var(--text-primary);
+    font-weight: 700;
 }
 
 .featured-price {
-    font-weight: 700;
+    font-weight: 800;
     color: var(--text-accent);
-    font-size: 1.1rem;
-}
-
-/* --- Estilos de la Sección de Administración --- */
-.admin-section {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-smooth);
-    border-radius: 10px;
-    padding: 2rem;
-    margin-bottom: 2.5rem;
-}
-
-.admin-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: flex-end;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-width: 160px;
-}
-
-.form-group label {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.form-group input, .form-group select {
-    background-color: var(--bg-main);
-    border: 1px solid var(--border-smooth);
-    border-radius: 6px;
-    padding: 0.65rem;
-    color: var(--text-primary);
-    font-size: 0.9rem;
-    transition: border-color 0.2s;
-}
-
-.form-group input:focus, .form-group select:focus {
-    border-color: var(--text-accent);
-    outline: none;
-}
-
-/* Botones Profesionales */
-.btn-submit {
-    background-color: #2563eb;
-    color: #ffffff;
-    border: none;
-    border-radius: 6px;
-    padding: 0.7rem 1.5rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    height: 38px;
-}
-
-.btn-submit:hover {
-    background-color: #1d4ed8;
-}
-
-.card-actions {
-    margin-top: 1.25rem;
-    border-top: 1px solid var(--border-smooth);
-    padding-top: 1rem;
-    text-align: right;
-}
-
-.btn-delete {
-    background-color: transparent;
-    color: #ef4444;
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    border-radius: 4px;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-delete:hover {
-    background-color: rgba(239, 68, 68, 0.1);
-    border-color: #ef4444;
+    font-size: 1.2rem;
 }
