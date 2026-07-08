@@ -236,3 +236,92 @@ body {
     color: var(--text-accent);
     font-size: 1.1rem;
 }
+
+/* --- Estilos de la Sección de Administración --- */
+.admin-section {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-smooth);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.admin-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 160px;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.form-group input, .form-group select {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-smooth);
+    border-radius: 6px;
+    padding: 0.65rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--text-accent);
+    outline: none;
+}
+
+/* Botones Profesionales */
+.btn-submit {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    height: 38px;
+}
+
+.btn-submit:hover {
+    background-color: #1d4ed8;
+}
+
+.card-actions {
+    margin-top: 1.25rem;
+    border-top: 1px solid var(--border-smooth);
+    padding-top: 1rem;
+    text-align: right;
+}
+
+.btn-delete {
+    background-color: transparent;
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-delete:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+}
